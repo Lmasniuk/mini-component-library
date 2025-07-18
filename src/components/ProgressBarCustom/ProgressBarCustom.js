@@ -28,13 +28,21 @@ const SIZES = {
 const ProgressBarCustom = ({ value, size }) => {
   const styles = SIZES[size];
 
+  if (!styles) {
+    throw new Error(`Unknown size: ${size}`);
+  }
+
   return (
-    <>
-      <ProgressLabel>{value}%</ProgressLabel>
-      <ProgressBarContainer style={styles}>
-        <ProgressBar size={size} value={value}></ProgressBar>
-      </ProgressBarContainer>
-    </>
+    <ProgressBarContainer
+      role="progressbar"
+      aria-valuenow={value}
+      artio-valuemin="0"
+      aria-valuemax="100"
+      style={styles}
+    >
+      <VisuallyHidden>{value}%</VisuallyHidden>
+      <ProgressBar size={size} value={value}></ProgressBar>
+    </ProgressBarContainer>
   );
 };
 
@@ -46,7 +54,7 @@ const ProgressLabel = styled.h1`
 const ProgressBarContainer = styled.div`
   width: 370px;
   height: var(--height);
-  background-color: ${COLORS.transparentGray35};
+  background-color: ${COLORS.transparentGray15};
   border-radius: var(--progressBoxBorderRadius);
   box-shadow: inset 0px 2px 4px ${COLORS.transparentGray35};
   padding: var(--padding);
@@ -55,6 +63,8 @@ const ProgressBarContainer = styled.div`
 const ProgressBar = styled.div`
   background-color: ${COLORS.primary};
   width: ${(p) => p.value}%;
+  border-radius: var(--progressBarBorderRadius) 0 0
+    var(--progressBarBorderRadius);
 
   ${(p) =>
     p.value > 98
