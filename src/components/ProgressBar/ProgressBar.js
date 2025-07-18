@@ -45,7 +45,7 @@ const ProgressLabel = styled.h1`
 
 const StyledProgressBar = styled.progress`
   appearance: none;
-  width: 70%;
+  width: 370px;
   height: var(--height);
 
   &::-webkit-progress-bar {
